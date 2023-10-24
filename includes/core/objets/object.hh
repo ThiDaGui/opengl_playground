@@ -1,8 +1,8 @@
 #pragma once
 
-#include <glm/gtc/quaternion.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/vec3.hpp>
+#include <glm/ext/matrix_float4x4.hpp>
+#include <glm/ext/quaternion_float.hpp>
+#include <glm/ext/vector_float3.hpp>
 
 namespace Playground::Core
 {
@@ -47,8 +47,8 @@ namespace Playground::Core
 
         // Transformation Matrix
     public:
-        const glm::mat4 getTransformMatrix();
-        const glm::mat4 getInverseTransformMatrix();
+        const glm::mat4 getModelMatrix();
+        const glm::mat4 getInverseModelMatrix();
 
         // Utils
     public:
