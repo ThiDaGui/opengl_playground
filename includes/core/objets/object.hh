@@ -55,14 +55,6 @@ namespace Playground::Core
         const glm::vec3 getRight();
         const glm::vec3 getFront();
         const glm::vec3 getUp();
-
-        //         // Rendering
-        //     protected:
-        //         virtual void preRender() = 0;
-        //         virtual void postRender() = 0;
-        //
-        //     public:
-        //         virtual void render() = 0;
     };
 
 } // namespace Playground::Core
