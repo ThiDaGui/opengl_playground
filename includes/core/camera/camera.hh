@@ -12,14 +12,12 @@ namespace Playground::Core
     class Camera
     {
     protected:
-        glm::mat4 view_matrix_;
         glm::mat4 projection_matrix_;
 
     public:
         Camera() = default;
 
-        const glm::mat4 getViewMatrix();
-        void setViewMatrix(const glm::mat4 &view_matrix);
+        virtual const glm::mat4 getViewMatrix() = 0;
 
         const glm::mat4 getProjectionMatrix();
         void setProjectionMatrix(const glm::mat4 &projection_matrix);

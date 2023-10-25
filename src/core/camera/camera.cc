@@ -6,16 +6,6 @@
 
 namespace Playground::Core
 {
-    const glm::mat4 Camera::getViewMatrix()
-    {
-        return view_matrix_;
-    }
-
-    void Camera::setViewMatrix(const glm::mat4 &view_matrix)
-    {
-        view_matrix_ = view_matrix;
-    }
-
     const glm::mat4 Camera::getProjectionMatrix()
     {
         return projection_matrix_;
