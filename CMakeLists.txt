@@ -7,12 +7,18 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glm REQUIRED)
 
-add_compile_options(-Wall -Wextra -Werror
+set(PLAYGROUND_COMPILE_OPTIONS
+	-Wall -Wextra -Werror -Wfloat-conversion -Woverloaded-virtual -Wnon-virtual-dtor
 	"$<$<CONFIG:Debug>:-O0;-g>")
 
 include_directories(
 	includes
 )
+
+file(GLOB IMGUI_SRC
+		"externals/imgui/*.cpp"
+		"externals/imgui/*.h"
+	)
 
 add_subdirectory(src)
 
