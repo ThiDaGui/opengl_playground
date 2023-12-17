@@ -16,6 +16,7 @@ namespace Playground::Core
 
     public:
         Camera() = default;
+        virtual ~Camera() = default;
 
         virtual const glm::mat4 getViewMatrix() = 0;
 
