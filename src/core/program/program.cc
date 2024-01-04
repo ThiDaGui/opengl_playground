@@ -1,4 +1,4 @@
-#include "core/shader/shader.hh"
+#include "core/program/program.hh"
 
 #include <cstdlib>
 #include <cstring>
