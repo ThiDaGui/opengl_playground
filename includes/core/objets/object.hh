@@ -7,54 +7,54 @@
 namespace Playground::Core
 {
 
-    class Object
-    {
-    protected:
-        glm::vec3 position_;
-        glm::quat rotation_;
-        glm::vec3 scale_;
+class Object
+{
+protected:
+    glm::vec3 position_;
+    glm::quat rotation_;
+    glm::vec3 scale_;
 
-    public:
-        Object();
-        Object(glm::vec3 position, glm::quat rotation, glm::vec3 scale);
+public:
+    Object();
+    Object(glm::vec3 position, glm::quat rotation, glm::vec3 scale);
 
-        // Position
-    public:
-        void setPosition(glm::vec3 const &position);
-        const glm::vec3 getPosition();
+    // Position
+public:
+    void setPosition(glm::vec3 const &position);
+    const glm::vec3 getPosition();
 
-        void move(glm::vec3 const &other);
+    void move(glm::vec3 const &other);
 
-        const glm::mat4 getTranslationMatrix();
-        const glm::mat4 getInverseTranslationMatrix();
+    const glm::mat4 getTranslationMatrix();
+    const glm::mat4 getInverseTranslationMatrix();
 
-        // Rotation
-    public:
-        void setRotation(glm::quat const &rotation);
-        void setRotation(glm::vec3 const &euler_angles);
-        const glm::quat getRotation();
+    // Rotation
+public:
+    void setRotation(glm::quat const &rotation);
+    void setRotation(glm::vec3 const &euler_angles);
+    const glm::quat getRotation();
 
-        const glm::mat4 getRotationMatrix();
-        const glm::mat4 getInverseRotationMatrix();
+    const glm::mat4 getRotationMatrix();
+    const glm::mat4 getInverseRotationMatrix();
 
-        // Scale
-    public:
-        void setScale(glm::vec3 const &scale);
-        const glm::vec3 getScale();
+    // Scale
+public:
+    void setScale(glm::vec3 const &scale);
+    const glm::vec3 getScale();
 
-        const glm::mat4 getScaleMatrix();
-        const glm::mat4 getInverseScaleMatrix();
+    const glm::mat4 getScaleMatrix();
+    const glm::mat4 getInverseScaleMatrix();
 
-        // Transformation Matrix
-    public:
-        const glm::mat4 getModelMatrix();
-        const glm::mat4 getInverseModelMatrix();
+    // Transformation Matrix
+public:
+    const glm::mat4 getModelMatrix();
+    const glm::mat4 getInverseModelMatrix();
 
-        // Utils
-    public:
-        const glm::vec3 getRight();
-        const glm::vec3 getFront();
-        const glm::vec3 getUp();
-    };
+    // Utils
+public:
+    const glm::vec3 getRight();
+    const glm::vec3 getFront();
+    const glm::vec3 getUp();
+};
 
 } // namespace Playground::Core

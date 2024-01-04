@@ -81,4 +81,3 @@ bool init_gl()
     glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
     return true;
 }
-

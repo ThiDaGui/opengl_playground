@@ -9,22 +9,22 @@
 namespace Playground::Core
 {
 
-    class Camera
-    {
-    protected:
-        glm::mat4 projection_matrix_;
+class Camera
+{
+protected:
+    glm::mat4 projection_matrix_;
 
-    public:
-        Camera() = default;
-        virtual ~Camera() = default;
+public:
+    Camera() = default;
+    virtual ~Camera() = default;
 
-        virtual const glm::mat4 getViewMatrix() = 0;
+    virtual const glm::mat4 getViewMatrix() = 0;
 
-        const glm::mat4 getProjectionMatrix();
-        void setProjectionMatrix(const glm::mat4 &projection_matrix);
-        void setProjectionMatrix(const float aspect_ratio,
-                                 const float field_of_view, const float z_near,
-                                 const float z_far);
-    };
+    const glm::mat4 getProjectionMatrix();
+    void setProjectionMatrix(const glm::mat4 &projection_matrix);
+    void setProjectionMatrix(const float aspect_ratio,
+                             const float field_of_view, const float z_near,
+                             const float z_far);
+};
 
 } // namespace Playground::Core
