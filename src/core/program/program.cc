@@ -87,4 +87,62 @@ namespace Playground::Core
         glUseProgram(gl_program_);
     }
 
+    void Program::set_uniform(const std::string name, const int value)
+    {
+        if(auto search = uniforms_.find(name);search != uniforms_.end())
+        {
+            glProgramUniform1i(gl_program_, search->second, value);
+        }
+    }
+    void Program::set_uniform(const std::string name, const float value)
+    {
+        if(auto search = uniforms_.find(name);search != uniforms_.end())
+        {
+            glProgramUniform1f(gl_program_, search->second, value);
+        }
+    }
+    void Program::set_uniform(const std::string name,const glm::vec2 value) 
+    {
+        if(auto search = uniforms_.find(name);search != uniforms_.end())
+        {
+            glProgramUniform2f(gl_program_, search->second, value.x, value.y);
+        }
+    }
+    void Program::set_uniform(const std::string name,const glm::vec3 value) 
+    {
+        if(auto search = uniforms_.find(name);search != uniforms_.end())
+        {
+            glProgramUniform3f(gl_program_, search->second, value.x, value.y, value.z);
+        }
+    }
+    void Program::set_uniform(const std::string name,const glm::vec4 value) 
+    {
+        if(auto search = uniforms_.find(name);search != uniforms_.end())
+        {
+            glProgramUniform4f(gl_program_, search->second, value.x, value.y, value.z, value.w);
+        }
+    }
+    void Program::set_uniform(const std::string name,const glm::mat2 value) 
+    {
+        if(auto search = uniforms_.find(name);search != uniforms_.end())
+        {
+            glProgramUniformMatrix2fv(gl_program_, search->second, 1, GL_FALSE, reinterpret_cast<const GLfloat *>(&value));
+        }
+    }
+    void Program::set_uniform(const std::string name,const glm::mat3 value) 
+    {
+        if(auto search = uniforms_.find(name);search != uniforms_.end())
+        {
+            glProgramUniformMatrix3fv(gl_program_, search->second, 1, GL_FALSE, reinterpret_cast<const GLfloat *>(&value));
+        }
+    }
+    void Program::set_uniform(const std::string name,const glm::mat4 value) 
+    {
+        if(auto search = uniforms_.find(name);search != uniforms_.end())
+        {
+            glProgramUniformMatrix4fv(gl_program_, search->second, 1, GL_FALSE, reinterpret_cast<const GLfloat *>(&value));
+        }
+    }
+
+
 } // namespace Playground::Core
