@@ -16,19 +16,33 @@
 
 namespace Playground::Core
 {
-
-enum ShaderType
+/**
+ * @enum ShaderType
+ * @brief enum for shader types
+ * @details used to specify the type of a shader
+ * @see Program
+ */
+enum class ShaderType
 {
-    Vertex = GL_VERTEX_SHADER,
-    Fragment = GL_FRAGMENT_SHADER,
-    Compute = GL_COMPUTE_SHADER
+    Vertex = GL_VERTEX_SHADER, /** @brief vertex shader type */
+    Fragment = GL_FRAGMENT_SHADER, /** @brief fragment shader type */
+    Compute = GL_COMPUTE_SHADER /** @brief compute shader type */
 };
 
 class Program
 {
 public:
     Program() = default;
+    /**
+     * @brief create a program from a list of shader source code
+     * @param srcs a list of pairs of shader type and source code
+     */
     Program(const std::vector<std::pair<ShaderType, const std::string>> srcs);
+    /**
+     * @brief create a program for a compute shader
+     * @param comp the source code of the compute shader
+     */
+    Program(const std::string &comp);
 
     ~Program();
 
@@ -51,10 +65,19 @@ public:
     void set_uniform(const std::string name, const glm::mat3 value);
     void set_uniform(const std::string name, const glm::mat4 value);
 
+    /**
+     * getter for checking if the program is a compute shader or not
+     */
+    bool is_compute_shader() const
+    {
+        return _is_compute_shader;
+    }
+
 private:
     GLuint gl_program_;
     std::vector<GLuint> gl_shaders_;
     std::unordered_map<std::string, GLint> uniforms_;
+    bool _is_compute_shader = false;
 };
 
 } // namespace Playground::Core

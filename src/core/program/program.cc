@@ -14,7 +14,7 @@ namespace Playground::Core
 {
 static GLuint create_shader(const ShaderType type, const std::string &src)
 {
-    const GLuint shader = glCreateShader(type);
+    const GLuint shader = glCreateShader(static_cast<GLenum>(type));
 
     const int len = src.size();
     const char *c_str = src.c_str();
@@ -28,7 +28,6 @@ static GLuint create_shader(const ShaderType type, const std::string &src)
     {
         int len = 0;
         char log[1024]{};
-
         glGetShaderInfoLog(shader, sizeof(log), &len, log);
         std::cerr << log << std::endl;
         exit(EXIT_FAILURE);
@@ -73,6 +72,20 @@ Program::Program(std::vector<std::pair<ShaderType, const std::string>> srcs)
     {
         glDeleteShader(shader);
     }
+    // init uniforms
+    get_uniforms_locations();
+}
+
+Program::Program(const std::string &comp)
+    : gl_program_(glCreateProgram())
+{
+    const GLuint shader = create_shader(ShaderType::Compute, comp);
+    _is_compute_shader = true;
+    glAttachShader(gl_program_, shader);
+
+    link_program(gl_program_);
+
+    glDeleteShader(shader);
     // init uniforms
     get_uniforms_locations();
 }
