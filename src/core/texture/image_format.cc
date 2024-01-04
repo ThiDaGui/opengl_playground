@@ -1,6 +1,7 @@
-#include <GL/gl.h>
-
 #include "core/texture/image_format.hh"
+
+#include <GL/gl.h>
+#include <cstdlib>
 
 namespace Playground::Core
 {
@@ -27,6 +28,8 @@ ImageFormatGL image_format_to_gl(ImageFormat format)
     case ImageFormat::Depth32_FLOAT:
         return ImageFormatGL{ GL_DEPTH_COMPONENT, GL_DEPTH_COMPONENT32F,
                               GL_FLOAT };
+    default:
+        exit(EXIT_FAILURE);
     }
 }
 
