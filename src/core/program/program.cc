@@ -73,18 +73,39 @@ namespace Playground::Core
         {
             glDeleteShader(shader);
         }
+        //init uniforms
+        get_uniforms_locations();
+ 
     }
 
     Program::~Program()
     {
-        for (auto gl_shader : gl_shaders_)
-            glDeleteShader(gl_shader);
         glDeleteProgram(gl_program_);
     }
 
     void Program::bind()
     {
         glUseProgram(gl_program_);
+    }
+    
+    void Program::get_uniforms_locations()
+    {
+        GLint nb_uniforms = 0;
+        glGetProgramiv(gl_program_, GL_ACTIVE_UNIFORMS, &nb_uniforms);
+        for (GLint i = 0; i < nb_uniforms; ++i)
+        {
+            GLint osef = 0;
+            GLenum type = 0;
+            GLsizei length = 0;
+            char name[1024]{};
+            glGetActiveUniform(gl_program_, i, sizeof(name), &length, &osef, &type, name);
+            auto res = uniforms_.emplace(std::string(name), glGetUniformLocation(gl_program_, name));
+            if(!res.second)
+            {
+                std::cerr << "Error: uniform " << name << " already exists" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
     }
 
     void Program::set_uniform(const std::string name, const int value)

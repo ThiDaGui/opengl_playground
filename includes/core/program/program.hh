@@ -34,6 +34,13 @@ namespace Playground::Core
 
         void bind();
 
+        //getter for uniforms locations,fills the uniforms_ map and check for duplicates
+        void get_uniforms_locations();
+        /**
+         * @brief set a uniform value
+         * @param name the name of the uniform
+         * @param value the value to set, can be a scalar, a vector or a matrix
+        */
         void set_uniform(const std::string name, const int value);
         void set_uniform(const std::string name, const float value);
         void set_uniform(const std::string name, const glm::vec2 value);
