@@ -22,5 +22,9 @@ file(GLOB IMGUI_SRC
 
 add_subdirectory(src)
 
-include(CTest)
-add_subdirectory(tests)
+option(COMPILE_TESTS "compile testsuite" OFF)
+
+if (COMPILE_TESTS)
+	include(CTest)
+	add_subdirectory(tests)
+endif(COMPILE_TESTS)
