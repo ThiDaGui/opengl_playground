@@ -2,5 +2,7 @@
 
 namespace Playground::Init
 {
-bool init_gl();
+
+bool init_playground();
+
 }

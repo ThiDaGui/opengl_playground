@@ -1,4 +1,12 @@
-#include "init/init_gl.hh"
+// clang-format off
+#include <GL/glew.h>
+#include <GL/gl.h>
+// clang-format on
+
+#include <iostream>
+
+namespace Playground::Init
+{
 
 void message_callback(GLenum source, GLenum type, GLuint id, GLenum severity,
                       GLsizei length, GLchar const *message,
@@ -81,3 +89,5 @@ bool init_gl()
     glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
     return true;
 }
+
+} // namespace Playground::Init
