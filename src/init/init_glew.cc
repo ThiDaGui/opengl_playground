@@ -6,7 +6,7 @@ namespace Playground::Init
 
 bool init_glew()
 {
-    if (glewInit())
+    if (!glewInit())
     {
         std::cerr << "Error while initializing glew";
         return false;
