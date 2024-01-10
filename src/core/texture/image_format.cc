@@ -2,6 +2,7 @@
 
 #include <GL/gl.h>
 #include <cstdlib>
+#include <iostream>
 
 namespace Playground::Core
 {
@@ -21,7 +22,6 @@ ImageFormatGL image_format_to_gl(ImageFormat format)
 
     case ImageFormat::RGBA16_FLOAT:
         return ImageFormatGL{ GL_RGBA, GL_RGBA16F, GL_FLOAT };
-
     case ImageFormat::RGB16_FLOAT:
         return ImageFormatGL{ GL_RGB, GL_RGB16F, GL_FLOAT };
 
