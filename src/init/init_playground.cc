@@ -131,7 +131,18 @@ bool init_glfw(InitStruct &init_struct)
 
 bool init_playground(InitStruct &init_struct)
 {
-    return init_glfw(init_struct) && init_glew() && init_gl();
+    if (init_glfw(init_struct) && init_glew() && init_gl())
+    {
+        std::cout << "OpenGL initialized\n"
+                  << std::setw(4) << ""
+                  << "Version: " << glGetString(GL_VERSION) << '\n'
+                  << std::setw(4) << ""
+                  << "Vendor: " << glGetString(GL_VENDOR) << '\n'
+                  << std::setw(4) << ""
+                  << "Renderer: " << glGetString(GL_RENDERER) << '\n';
+        return true;
+    }
+    return false;
 }
 
 } // namespace Playground::Init

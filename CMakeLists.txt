@@ -16,10 +16,14 @@ include_directories(
 )
 
 file(GLOB IMGUI_SRC
-		"externals/imgui/*.cpp"
-	)
+	"externals/imgui/*.cpp"
+)
+list(APPEND IMGUI_SRC
+	externals/imgui/backends/imgui_impl_glfw.cpp
+	externals/imgui/backends/imgui_impl_opengl3.cpp
+)
 
-add_library(imgui_lib ${IMGUI_SRC})
+add_library(imgui_lib STATIC ${IMGUI_SRC})
 target_compile_options(imgui_lib PUBLIC -Wall -Wextra -O2)
 
 add_subdirectory(src)
