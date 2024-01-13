@@ -1,6 +1,7 @@
 #include "init/init_playground.hh"
 
 #include <glm/vec2.hpp>
+#include <iomanip>
 #include <iostream>
 
 namespace Playground::Init
