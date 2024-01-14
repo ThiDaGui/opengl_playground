@@ -1,8 +1,12 @@
 #include "init/init_playground.hh"
 
-#include <glm/vec2.hpp>
 #include <iomanip>
 #include <iostream>
+
+#include "GLFW/glfw3.h"
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
+#include "imgui.h"
 
 namespace Playground::Init
 {
@@ -126,13 +130,28 @@ bool init_glfw(InitStruct &init_struct)
         return false;
     }
     glfwMakeContextCurrent(init_struct.window);
+    glfwSwapInterval(1);
+
+    return true;
+}
+
+bool init_imgui(const InitStruct &init_struct)
+{
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+    io.ConfigFlags |= init_struct.config_flags;
+
+    ImGui_ImplGlfw_InitForOpenGL(init_struct.window, true);
+    ImGui_ImplOpenGL3_Init("#version 130");
 
     return true;
 }
 
 bool init_playground(InitStruct &init_struct)
 {
-    if (init_glfw(init_struct) && init_glew() && init_gl())
+    if (init_glfw(init_struct) && init_glew() && init_gl()
+        && init_imgui(init_struct))
     {
         std::cout << "OpenGL initialized\n"
                   << std::setw(4) << ""
