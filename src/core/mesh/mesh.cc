@@ -29,7 +29,7 @@ void Mesh::draw() const
                           reinterpret_cast<const void *>(6 * sizeof(float)));
 
     // vertex color
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+    glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex),
                           reinterpret_cast<const void *>(8 * sizeof(float)));
 
     glEnableVertexAttribArray(0);
