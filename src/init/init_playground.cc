@@ -142,6 +142,8 @@ bool init_imgui(const InitStruct &init_struct)
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
     io.ConfigFlags |= init_struct.config_flags;
+    if (init_struct.config_flags & ImGuiConfigFlags_ViewportsEnable)
+        io.ConfigViewportsNoAutoMerge = true;
 
     ImGui_ImplGlfw_InitForOpenGL(init_struct.window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
