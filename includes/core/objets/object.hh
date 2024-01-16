@@ -3,6 +3,10 @@
 #include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/quaternion_float.hpp>
 #include <glm/ext/vector_float3.hpp>
+#include <memory>
+
+#include "core/mesh/mesh.hh"
+#include "core/program/program.hh"
 
 namespace Playground::Core
 {
@@ -16,7 +20,8 @@ protected:
 
 public:
     Object();
-    Object(glm::vec3 position, glm::quat rotation, glm::vec3 scale);
+    Object(glm::vec3 position, glm::quat rotation, glm::vec3 scale,
+           std::shared_ptr<Mesh> mesh, std::shared_ptr<Program>);
 
     // Position
 public:
@@ -53,8 +58,21 @@ public:
     // Utils
 public:
     const glm::vec3 getRight();
-    const glm::vec3 getFront();
+    const glm::vec3 getForward();
     const glm::vec3 getUp();
+
+    /**
+     * TODO: Maybe refacto all of this in "traits" that can be inherited.
+     * Like that we will be able to create differents types of objects depending
+     * of which functionnalities we need them to have
+     */
+    // Render
+public:
+    void draw();
+
+private:
+    std::shared_ptr<Mesh> mesh_;
+    std::shared_ptr<Program> program_;
 };
 
 } // namespace Playground::Core

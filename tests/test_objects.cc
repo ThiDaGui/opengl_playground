@@ -19,7 +19,8 @@ END_TEST
 
 START_TEST(object_constuctor_position_vec3)
 {
-    Playground::Core::Object obj({ 1, 1, 1 }, { 1, 0, 0, 0 }, { 1, 1, 1 });
+    Playground::Core::Object obj({ 1, 1, 1 }, { 1, 0, 0, 0 }, { 1, 1, 1 },
+                                 nullptr, nullptr);
     glm::vec3 position = obj.getPosition();
     ck_assert(position == glm::vec3(1, 1, 1));
 }
@@ -27,7 +28,8 @@ END_TEST
 
 START_TEST(object_constuctor_position_mat4)
 {
-    Playground::Core::Object obj({ 1, 1, 1 }, { 1, 0, 0, 0 }, { 1, 1, 1 });
+    Playground::Core::Object obj({ 1, 1, 1 }, { 1, 0, 0, 0 }, { 1, 1, 1 },
+                                 nullptr, nullptr);
     glm::mat4 modelMatrix = obj.getModelMatrix();
     glm::mat4 ref = glm::mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1);
 

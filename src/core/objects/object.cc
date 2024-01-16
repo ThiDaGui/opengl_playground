@@ -2,10 +2,16 @@
 
 #include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/ext/quaternion_geometric.hpp>
 #include <glm/ext/quaternion_trigonometric.hpp>
 #include <glm/ext/vector_float3.hpp>
+#include <glm/fwd.hpp>
+#include <glm/geometric.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+#include <memory>
+
+#include "core/mesh/mesh.hh"
 
 namespace Playground::Core
 {
@@ -16,10 +22,13 @@ Object::Object()
     , scale_(1.0f)
 {}
 
-Object::Object(glm::vec3 position, glm::quat rotation, glm::vec3 scale)
+Object::Object(glm::vec3 position, glm::quat rotation, glm::vec3 scale,
+               std::shared_ptr<Mesh> mesh, std::shared_ptr<Program> program)
     : position_(position)
     , rotation_(rotation)
     , scale_(scale)
+    , mesh_(mesh)
+    , program_(program)
 {}
 
 // Position
@@ -105,19 +114,35 @@ const glm::mat4 Object::getInverseScaleMatrix()
 
 const glm::mat4 Object::getModelMatrix()
 {
-    glm::mat4 modelMatrix = glm::mat4(1.0f);
-    modelMatrix = glm::scale(modelMatrix, scale_);
-    modelMatrix =
-        glm::rotate(modelMatrix, glm::angle(rotation_), glm::axis(rotation_));
-    modelMatrix = glm::translate(modelMatrix, position_);
-
-    return modelMatrix;
+    return getTranslationMatrix() * getRotationMatrix() * getScaleMatrix();
 }
 
 const glm::mat4 Object::getInverseModelMatrix()
 {
     return getInverseScaleMatrix() * getInverseRotationMatrix()
         * getInverseTranslationMatrix();
+}
+
+const glm::vec3 Object::getRight()
+{
+    return glm::normalize(getModelMatrix() * glm::vec4{ 1.0, 0.0, 0.0, 1.0 });
+}
+
+const glm::vec3 Object::getForward()
+{
+    return glm::normalize(getModelMatrix() * glm::vec4{ 0.0, 1.0, 0.0, 1.0 });
+}
+
+const glm::vec3 Object::getUp()
+{
+    return glm::normalize(getModelMatrix() * glm::vec4{ 0.0, 0.0, 1.0, 1.0 });
+}
+
+void Object::draw()
+{
+    program_->bind();
+    program_->set_uniform("model", getModelMatrix());
+    mesh_->draw();
 }
 
 } // namespace Playground::Core
