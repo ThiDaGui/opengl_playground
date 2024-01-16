@@ -9,6 +9,6 @@ namespace Playground::Shaders
 
 using namespace glm;
 
-#include <structs.glsl>
+#include "../../../shaders/structs.glsl"
 
 } // namespace Playground::Shaders

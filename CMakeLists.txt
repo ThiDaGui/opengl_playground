@@ -10,7 +10,6 @@ find_package(glm REQUIRED)
 add_subdirectory(externals/glfw)
 
 include_directories(
-	shaders
 	includes
 	externals/imgui
 	externals/glfw/include
