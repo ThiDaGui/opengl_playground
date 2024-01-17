@@ -9,6 +9,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/vec2.hpp>
 #include <iostream>
+#include "core/camera/look_at_camera.hh"
 
 namespace Playground::Init
 {
@@ -36,6 +37,9 @@ struct InitStruct
         glfwTerminate();
     }
 };
+
+void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera,
+                   float delta_time);
 
 bool init_playground(InitStruct &init_struct);
 

@@ -151,6 +151,55 @@ bool init_imgui(const InitStruct &init_struct)
     return true;
 }
 
+void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera,
+                   float delta_time)
+{
+    static glm::dvec2 last_mouse_pos = {};
+
+    glm::dvec2 mouse_pos;
+    glfwGetCursorPos(window, &mouse_pos.x, &mouse_pos.y);
+    {
+        glm::vec3 mouvement = {};
+        if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+            mouvement += camera.getForward();
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+            mouvement -= camera.getForward();
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            mouvement += camera.getRight();
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            mouvement -= camera.getRight();
+
+        float speed = 50.0f;
+        if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+            speed *= 5.0f;
+
+        if (glm::length(mouvement) > 0.0f)
+        {
+            const glm::vec3 new_pos =
+                camera.getPosition() + mouvement * speed * delta_time;
+            camera.setViewMatrix(glm::lookAt(
+                new_pos, new_pos + camera.getForward(), camera.getUp()));
+        }
+    }
+
+    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+    {
+        const glm::vec2 delta = glm::vec2(mouse_pos - last_mouse_pos) * 0.01f;
+        if (glm::length(delta) > 0.0f)
+        {
+            glm::mat4 rotation_matrix = glm::rotate(
+                glm::mat4(1.0f), delta.x, glm::vec3(0.0f, 1.0f, 0.0f));
+            rotation_matrix =
+                glm::rotate(rotation_matrix, delta.y, camera.getRight());
+            camera.setViewMatrix(glm::lookAt(
+                camera.getPosition(),
+                camera.getPosition()
+                    + (glm::mat3(rotation_matrix) * camera.getForward()),
+                (glm::mat3(rotation_matrix) * camera.getUp())));
+        }
+    }
+}
+
 bool init_playground(InitStruct &init_struct)
 {
     if (init_glfw(init_struct) && init_glew() && init_gl()

@@ -13,7 +13,6 @@ class Camera
 {
 protected:
     glm::mat4 projection_matrix_;
-
 public:
     Camera() = default;
     virtual ~Camera() = default;
