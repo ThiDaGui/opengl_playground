@@ -103,6 +103,10 @@ bool init_gl()
     glDebugMessageCallback(message_callback, 0);
 #endif
 
+    static GLuint global_vao;
+    glGenVertexArrays(1, &global_vao);
+    glBindVertexArray(global_vao);
+
     return true;
 }
 

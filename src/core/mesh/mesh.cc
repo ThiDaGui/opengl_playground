@@ -8,8 +8,8 @@
 namespace Playground::Core
 {
 Mesh::Mesh(const MeshData &data)
-    : vertex_buffer_(data.vertices.data(), data.vertices.size())
-    , index_buffer_(data.indices.data(), data.indices.size())
+    : vertex_buffer_(data.vertices)
+    , index_buffer_(data.indices)
 {}
 
 void Mesh::draw() const
