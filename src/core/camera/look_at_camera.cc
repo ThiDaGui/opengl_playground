@@ -7,7 +7,6 @@
 namespace Playground::Core
 {
 
-
 static glm::vec3 return_position(const glm::mat4 &view_matrix)
 {
     glm::vec3 pos = {};
@@ -73,8 +72,6 @@ void LookAtCamera::setViewMatrix(const glm::mat4 view_matrix)
     look_at_ = return_forward(view_matrix);
     up_ = return_up(view_matrix);
 }
-
-
 
 const glm::vec3 LookAtCamera::getPosition()
 {

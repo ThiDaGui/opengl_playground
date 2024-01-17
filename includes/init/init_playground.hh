@@ -9,6 +9,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/vec2.hpp>
 #include <iostream>
+
 #include "core/camera/look_at_camera.hh"
 
 namespace Playground::Init

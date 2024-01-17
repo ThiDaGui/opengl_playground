@@ -35,7 +35,6 @@ public:
 
     const glm::vec3 getLookAt();
     void setLookAt(const glm::vec3 look_at);
-
 };
 
 } // namespace Playground::Core
