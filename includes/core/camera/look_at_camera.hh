@@ -23,7 +23,6 @@ public:
     virtual const glm::mat4 getViewMatrix() override;
     void setViewMatrix(const glm::vec3 position, const glm::vec3 look_at,
                        const glm::vec3 up);
-    void setViewMatrix(const glm::mat4 view_matrix);
 
     const glm::vec3 getPosition();
     void setPosition(const glm::vec3 position);

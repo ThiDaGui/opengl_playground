@@ -191,7 +191,7 @@ void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera)
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
             mouvement -= camera.getRight();
 
-        float speed = 50.0f;
+        float speed = 10.0f;
         if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
             speed *= 5.0f;
 
@@ -199,8 +199,8 @@ void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera)
         {
             const glm::vec3 new_pos =
                 camera.getPosition() + mouvement * speed * delta_time;
-            camera.setViewMatrix(glm::lookAt(
-                new_pos, new_pos + camera.getForward(), camera.getUp()));
+            camera.setViewMatrix(new_pos, new_pos + camera.getForward(),
+                                 camera.getUp());
         }
     }
 
@@ -213,11 +213,11 @@ void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera)
                 glm::mat4(1.0f), delta.x, glm::vec3(0.0f, 1.0f, 0.0f));
             rotation_matrix =
                 glm::rotate(rotation_matrix, delta.y, camera.getRight());
-            camera.setViewMatrix(glm::lookAt(
+            camera.setViewMatrix(
                 camera.getPosition(),
                 camera.getPosition()
                     + (glm::mat3(rotation_matrix) * camera.getForward()),
-                (glm::mat3(rotation_matrix) * camera.getUp())));
+                (glm::mat3(rotation_matrix) * camera.getUp()));
         }
     }
     mouse_pos = new_mouse_pos;
