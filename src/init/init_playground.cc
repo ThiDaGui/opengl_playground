@@ -220,9 +220,6 @@ void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera)
                 (glm::mat3(rotation_matrix) * camera.getUp())));
         }
     }
-    std::cout << camera.getPosition().x << ", " << camera.getPosition().y
-              << ", " << camera.getPosition().z << '\n';
-    std::cout << "delta time: " << delta_time << '\n';
     mouse_pos = new_mouse_pos;
 }
 
