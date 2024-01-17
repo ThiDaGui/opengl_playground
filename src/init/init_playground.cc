@@ -1,5 +1,6 @@
 #include "init/init_playground.hh"
 
+#include <chrono>
 #include <iomanip>
 #include <iostream>
 
@@ -22,6 +23,24 @@ bool init_glew()
         return false;
     }
     return true;
+}
+static float delta_time = 0.0f;
+
+static auto const start_time = std::chrono::high_resolution_clock::now();
+
+float program_time()
+{
+    auto const current_time = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration<float, std::chrono::seconds::period>(
+               current_time - start_time)
+        .count();
+}
+void update_delta_time()
+{
+    static double time = 0.0;
+    const double new_time = program_time();
+    delta_time = float(new_time - time);
+    time = new_time;
 }
 
 void GLAPIENTRY message_callback(GLenum source, GLenum type, GLuint id,
@@ -155,8 +174,7 @@ bool init_imgui(const InitStruct &init_struct)
     return true;
 }
 
-void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera,
-                   float delta_time)
+void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera)
 {
     static glm::dvec2 mouse_pos;
 
@@ -202,6 +220,9 @@ void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera,
                 (glm::mat3(rotation_matrix) * camera.getUp())));
         }
     }
+    std::cout << camera.getPosition().x << ", " << camera.getPosition().y
+              << ", " << camera.getPosition().z << '\n';
+    std::cout << "delta time: " << delta_time << '\n';
     mouse_pos = new_mouse_pos;
 }
 

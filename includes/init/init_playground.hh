@@ -39,8 +39,9 @@ struct InitStruct
     }
 };
 
-void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera,
-                   float delta_time);
+void update_delta_time();
+
+void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera);
 
 bool init_playground(InitStruct &init_struct);
 
