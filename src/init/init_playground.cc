@@ -158,10 +158,10 @@ bool init_imgui(const InitStruct &init_struct)
 void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera,
                    float delta_time)
 {
-    static glm::dvec2 last_mouse_pos = {};
+    static glm::dvec2 mouse_pos;
 
-    glm::dvec2 mouse_pos;
-    glfwGetCursorPos(window, &mouse_pos.x, &mouse_pos.y);
+    glm::dvec2 new_mouse_pos;
+    glfwGetCursorPos(window, &new_mouse_pos.x, &new_mouse_pos.y);
     {
         glm::vec3 mouvement = {};
         if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
@@ -188,7 +188,7 @@ void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera,
 
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
     {
-        const glm::vec2 delta = glm::vec2(mouse_pos - last_mouse_pos) * 0.01f;
+        const glm::vec2 delta = glm::vec2(mouse_pos - new_mouse_pos);
         if (glm::length(delta) > 0.0f)
         {
             glm::mat4 rotation_matrix = glm::rotate(
@@ -202,6 +202,7 @@ void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera,
                 (glm::mat3(rotation_matrix) * camera.getUp())));
         }
     }
+    mouse_pos = new_mouse_pos;
 }
 
 bool init_playground(InitStruct &init_struct)
