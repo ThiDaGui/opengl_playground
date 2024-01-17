@@ -16,9 +16,9 @@ private:
     glm::vec3 look_at_;
 
 public:
-    LookAtCamera();
-    LookAtCamera(glm::vec3 up);
-    LookAtCamera(glm::vec3 up, glm::vec3 position, glm::vec3 look_at);
+    LookAtCamera(glm::vec3 position = { 2.0, 2.0, 2.0 },
+                 glm::vec3 look_at = { 0.0, 0.0, 0.0 },
+                 glm::vec3 up = { 0.0, 0.0, 1.0 });
 
     virtual const glm::mat4 getViewMatrix() override;
     void setViewMatrix(const glm::vec3 position, const glm::vec3 look_at,

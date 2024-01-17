@@ -4,6 +4,8 @@
 #include <glm/ext/vector_float3.hpp>
 #include <glm/fwd.hpp>
 
+#include "core/camera/camera.hh"
+
 namespace Playground::Core
 {
 
@@ -36,20 +38,10 @@ static glm::vec3 return_up(const glm::mat4 &view_matrix)
     return glm::normalize(
         glm::vec3(view_matrix[0][1], view_matrix[1][1], view_matrix[2][1]));
 }
-LookAtCamera::LookAtCamera()
-    : up_(0, 0, 1)
-    , position_(0, 0, 0)
-    , look_at_(1, 0, 0)
-{}
 
-LookAtCamera::LookAtCamera(glm::vec3 up)
-    : up_(up)
-    , position_(0, 0, 0)
-    , look_at_(1, 0, 0)
-{}
-
-LookAtCamera::LookAtCamera(glm::vec3 up, glm::vec3 position, glm::vec3 look_at)
-    : up_(up)
+LookAtCamera::LookAtCamera(glm::vec3 position, glm::vec3 look_at, glm::vec3 up)
+    : Camera()
+    , up_(up)
     , position_(position)
     , look_at_(look_at)
 {}
