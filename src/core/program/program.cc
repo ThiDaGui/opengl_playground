@@ -63,10 +63,10 @@ Program::Program(std::vector<std::pair<ShaderType, const std::string>> srcs)
         const GLuint shader = create_shader(type, src);
         shaders.push_back(shader);
 
-        glAttachShader(gl_program_, shader);
+        glAttachShader(gl_program_.get(), shader);
     }
 
-    link_program(gl_program_);
+    link_program(gl_program_.get());
 
     for (const GLuint &shader : shaders)
     {
@@ -81,9 +81,9 @@ Program::Program(const std::string &comp)
 {
     const GLuint shader = create_shader(ShaderType::Compute, comp);
     _is_compute_shader = true;
-    glAttachShader(gl_program_, shader);
+    glAttachShader(gl_program_.get(), shader);
 
-    link_program(gl_program_);
+    link_program(gl_program_.get());
 
     glDeleteShader(shader);
     // init uniforms
@@ -92,28 +92,29 @@ Program::Program(const std::string &comp)
 
 Program::~Program()
 {
-    glDeleteProgram(gl_program_);
+    if (gl_program_.is_valid())
+        glDeleteProgram(gl_program_.get());
 }
 
 void Program::bind()
 {
-    glUseProgram(gl_program_);
+    glUseProgram(gl_program_.get());
 }
 
 void Program::get_uniforms_locations()
 {
     GLint nb_uniforms = 0;
-    glGetProgramiv(gl_program_, GL_ACTIVE_UNIFORMS, &nb_uniforms);
+    glGetProgramiv(gl_program_.get(), GL_ACTIVE_UNIFORMS, &nb_uniforms);
     for (GLint i = 0; i < nb_uniforms; ++i)
     {
         GLint osef = 0;
         GLenum type = 0;
         GLsizei length = 0;
         char name[1024]{};
-        glGetActiveUniform(gl_program_, i, sizeof(name), &length, &osef, &type,
-                           name);
-        auto res = uniforms_.emplace(std::string(name),
-                                     glGetUniformLocation(gl_program_, name));
+        glGetActiveUniform(gl_program_.get(), i, sizeof(name), &length, &osef,
+                           &type, name);
+        auto res = uniforms_.emplace(
+            std::string(name), glGetUniformLocation(gl_program_.get(), name));
         if (!res.second)
         {
             std::cerr << "Error: uniform " << name << " already exists"
@@ -127,28 +128,28 @@ void Program::set_uniform(const std::string name, const int value)
 {
     if (auto search = uniforms_.find(name); search != uniforms_.end())
     {
-        glProgramUniform1i(gl_program_, search->second, value);
+        glProgramUniform1i(gl_program_.get(), search->second, value);
     }
 }
 void Program::set_uniform(const std::string name, const float value)
 {
     if (auto search = uniforms_.find(name); search != uniforms_.end())
     {
-        glProgramUniform1f(gl_program_, search->second, value);
+        glProgramUniform1f(gl_program_.get(), search->second, value);
     }
 }
 void Program::set_uniform(const std::string name, const glm::vec2 value)
 {
     if (auto search = uniforms_.find(name); search != uniforms_.end())
     {
-        glProgramUniform2f(gl_program_, search->second, value.x, value.y);
+        glProgramUniform2f(gl_program_.get(), search->second, value.x, value.y);
     }
 }
 void Program::set_uniform(const std::string name, const glm::vec3 value)
 {
     if (auto search = uniforms_.find(name); search != uniforms_.end())
     {
-        glProgramUniform3f(gl_program_, search->second, value.x, value.y,
+        glProgramUniform3f(gl_program_.get(), search->second, value.x, value.y,
                            value.z);
     }
 }
@@ -156,7 +157,7 @@ void Program::set_uniform(const std::string name, const glm::vec4 value)
 {
     if (auto search = uniforms_.find(name); search != uniforms_.end())
     {
-        glProgramUniform4f(gl_program_, search->second, value.x, value.y,
+        glProgramUniform4f(gl_program_.get(), search->second, value.x, value.y,
                            value.z, value.w);
     }
 }
@@ -164,7 +165,8 @@ void Program::set_uniform(const std::string name, const glm::mat2 value)
 {
     if (auto search = uniforms_.find(name); search != uniforms_.end())
     {
-        glProgramUniformMatrix2fv(gl_program_, search->second, 1, GL_FALSE,
+        glProgramUniformMatrix2fv(gl_program_.get(), search->second, 1,
+                                  GL_FALSE,
                                   reinterpret_cast<const GLfloat *>(&value));
     }
 }
@@ -172,7 +174,8 @@ void Program::set_uniform(const std::string name, const glm::mat3 value)
 {
     if (auto search = uniforms_.find(name); search != uniforms_.end())
     {
-        glProgramUniformMatrix3fv(gl_program_, search->second, 1, GL_FALSE,
+        glProgramUniformMatrix3fv(gl_program_.get(), search->second, 1,
+                                  GL_FALSE,
                                   reinterpret_cast<const GLfloat *>(&value));
     }
 }
@@ -180,7 +183,8 @@ void Program::set_uniform(const std::string name, const glm::mat4 value)
 {
     if (auto search = uniforms_.find(name); search != uniforms_.end())
     {
-        glProgramUniformMatrix4fv(gl_program_, search->second, 1, GL_FALSE,
+        glProgramUniformMatrix4fv(gl_program_.get(), search->second, 1,
+                                  GL_FALSE,
                                   reinterpret_cast<const GLfloat *>(&value));
     }
 }

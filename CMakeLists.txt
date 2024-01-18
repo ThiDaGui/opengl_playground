@@ -24,7 +24,7 @@ list(APPEND IMGUI_SRC
 )
 
 add_library(imgui_lib STATIC ${IMGUI_SRC})
-target_compile_options(imgui_lib PUBLIC -Wall -Wextra -O2)
+target_compile_options(imgui_lib PUBLIC -Wall -Wextra)
 
 add_subdirectory(src)
 

@@ -2,6 +2,7 @@
 
 #include <GL/glew.h>
 #include <array>
+#include <cstdint>
 #include <cstdlib>
 #include <iostream>
 
@@ -27,8 +28,8 @@ FrameBuffer::FrameBuffer(Texture *depth, Texture **color_textures,
 {
     if (depth)
     {
-        glNamedFramebufferTexture(gl_frame_buffer_, GL_DEPTH_ATTACHMENT,
-                                  depth->gl_texture_, 0);
+        glNamedFramebufferTexture(gl_frame_buffer_.get(), GL_DEPTH_ATTACHMENT,
+                                  depth->gl_texture_.get(), 0);
         size_ = depth->size_;
     }
     if (color_texture_count >= 8)
@@ -38,8 +39,9 @@ FrameBuffer::FrameBuffer(Texture *depth, Texture **color_textures,
     }
     for (size_t i = 0; i < color_texture_count; ++i)
     {
-        glNamedFramebufferTexture(gl_frame_buffer_, GL_COLOR_ATTACHMENT0 + i,
-                                  color_textures[i]->gl_texture_, 0);
+        glNamedFramebufferTexture(gl_frame_buffer_.get(),
+                                  GL_COLOR_ATTACHMENT0 + i,
+                                  color_textures[i]->gl_texture_.get(), 0);
         size_ = color_textures[i]->size_;
     }
     const GLenum draw_buffers[] = {
@@ -47,9 +49,9 @@ FrameBuffer::FrameBuffer(Texture *depth, Texture **color_textures,
         GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5,
         GL_COLOR_ATTACHMENT6, GL_COLOR_ATTACHMENT7
     };
-    glNamedFramebufferDrawBuffers(gl_frame_buffer_, color_texture_count,
+    glNamedFramebufferDrawBuffers(gl_frame_buffer_.get(), color_texture_count,
                                   draw_buffers);
-    if (glCheckNamedFramebufferStatus(gl_frame_buffer_, GL_FRAMEBUFFER)
+    if (glCheckNamedFramebufferStatus(gl_frame_buffer_.get(), GL_FRAMEBUFFER)
         != GL_FRAMEBUFFER_COMPLETE)
     {
         std::cerr << "FrameBuffer: incomplete" << std::endl;
@@ -59,13 +61,14 @@ FrameBuffer::FrameBuffer(Texture *depth, Texture **color_textures,
 
 FrameBuffer::~FrameBuffer()
 {
-    glDeleteFramebuffers(1, &gl_frame_buffer_);
+    if (uint32_t handle = gl_frame_buffer_.get())
+        glDeleteFramebuffers(1, &handle);
 }
 
 void FrameBuffer::bind([[maybe_unused]] bool clear,
                        [[maybe_unused]] bool depth) const
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, gl_frame_buffer_);
+    glBindFramebuffer(GL_FRAMEBUFFER, gl_frame_buffer_.get());
 }
 
 void FrameBuffer::blit(bool depth) const
@@ -77,9 +80,9 @@ void FrameBuffer::blit(bool depth) const
     glGetIntegerv(GL_VIEWPORT, viewport);
 
     glBlitNamedFramebuffer(
-        gl_frame_buffer_, binding, 0, 0, size_.x, size_.y, 0, 0, viewport[2],
-        viewport[3], GL_COLOR_BUFFER_BIT | (depth ? GL_DEPTH_BUFFER_BIT : 0),
-        GL_NEAREST);
+        gl_frame_buffer_.get(), binding, 0, 0, size_.x, size_.y, 0, 0,
+        viewport[2], viewport[3],
+        GL_COLOR_BUFFER_BIT | (depth ? GL_DEPTH_BUFFER_BIT : 0), GL_NEAREST);
 }
 
 const glm::uvec2 &FrameBuffer::size() const

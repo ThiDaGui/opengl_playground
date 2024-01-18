@@ -183,7 +183,7 @@ void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera)
     glfwGetCursorPos(window, &new_mouse_pos.x, &new_mouse_pos.y);
     {
         glm::vec3 mouvement = {};
-        if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
             mouvement += camera.getForward();
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
             mouvement -= camera.getForward();

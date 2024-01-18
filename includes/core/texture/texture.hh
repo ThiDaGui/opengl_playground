@@ -3,8 +3,10 @@
 #include <GL/glew.h>
 #include <glm/fwd.hpp>
 #include <glm/vec2.hpp>
+#include <type_traits>
 
 #include "core/texture/image_format.hh"
+#include "utils/GLhandle.hh"
 
 namespace Playground::Core
 {
@@ -15,17 +17,17 @@ public:
     Texture() = default;
     Texture(Texture &&) = default;
     Texture &operator=(Texture &&) = default;
-    
-    Texture(const glm::uvec2 &size, const ImageFormat format,
-            const uint32_t mip_levels = 1);
 
     ~Texture();
+
+    Texture(const glm::uvec2 &size, const ImageFormat format,
+            const uint32_t mip_levels = 1);
 
     void bind(const GLuint unit = 0) const;
 
 private:
     friend class FrameBuffer;
-    GLuint gl_texture_;
+    GLHandle gl_texture_ = 0;
     glm::uvec2 size_;
     ImageFormat format_;
 };

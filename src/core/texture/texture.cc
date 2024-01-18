@@ -1,5 +1,6 @@
 #include "core/texture/texture.hh"
 
+#include <cstdint>
 #include <glm/glm.hpp>
 
 #include "core/texture/image_format.hh"
@@ -20,19 +21,20 @@ Texture::Texture(const glm::uvec2 &size, const ImageFormat format,
     , size_(size)
     , format_(format)
 {
-    ImageFormatGL gl_format = image_format_to_gl(format);
-    glTextureStorage2D(gl_texture_, mip_levels, gl_format.internal_format,
+    const ImageFormatGL gl_format = image_format_to_gl(format);
+    glTextureStorage2D(gl_texture_.get(), mip_levels, gl_format.internal_format,
                        size.x, size.y);
 }
 
 Texture::~Texture()
 {
-    glDeleteTextures(1, &gl_texture_);
+    if (uint32_t handle = gl_texture_.get())
+        glDeleteTextures(1, &handle);
 }
 
 void Texture::bind(const GLuint index) const
 {
-    glBindTextureUnit(index, gl_texture_);
+    glBindTextureUnit(index, gl_texture_.get());
 }
 
 } // namespace Playground::Core

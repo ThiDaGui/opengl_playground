@@ -4,6 +4,7 @@
 #include <cstdint>
 
 #include "core/buffer/util.hh"
+#include "utils/GLhandle.hh"
 
 namespace Playground::Core
 {
@@ -24,7 +25,7 @@ public:
     size_t byte_size() const;
 
 private:
-    GLuint gl_byte_buffer_;
+    GLHandle gl_byte_buffer_ = 0;
     size_t byte_size_ = 0;
 };
 } // namespace Playground::Core

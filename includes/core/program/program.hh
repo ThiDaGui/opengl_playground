@@ -14,6 +14,8 @@
 #include <utility>
 #include <vector>
 
+#include "utils/GLhandle.hh"
+
 namespace Playground::Core
 {
 /**
@@ -33,6 +35,8 @@ class Program
 {
 public:
     Program() = default;
+    Program(Program &&) = default;
+    Program &operator=(Program &&) = default;
     /**
      * @brief create a program from a list of shader source code
      * @param srcs a list of pairs of shader type and source code
@@ -74,7 +78,7 @@ public:
     }
 
 private:
-    GLuint gl_program_;
+    GLHandle gl_program_ = 0;
     std::vector<GLuint> gl_shaders_;
     std::unordered_map<std::string, GLint> uniforms_;
     bool _is_compute_shader = false;
