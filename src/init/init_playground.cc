@@ -1,6 +1,7 @@
 #include "init/init_playground.hh"
 
 #include <chrono>
+#include <cmath>
 #include <iomanip>
 #include <iostream>
 
@@ -206,11 +207,12 @@ void process_input(GLFWwindow *window, Playground::Core::LookAtCamera &camera)
 
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
     {
-        const glm::vec2 delta = glm::vec2(mouse_pos - new_mouse_pos);
+        const glm::vec2 delta =
+            glm::vec2(mouse_pos - new_mouse_pos) * (float)M_PI / 360.0f;
         if (glm::length(delta) > 0.0f)
         {
             glm::mat4 rotation_matrix = glm::rotate(
-                glm::mat4(1.0f), delta.x, glm::vec3(0.0f, 1.0f, 0.0f));
+                glm::mat4(1.0f), delta.x, glm::vec3(0.0f, 0.0f, 1.0f));
             rotation_matrix =
                 glm::rotate(rotation_matrix, delta.y, camera.getRight());
             camera.setViewMatrix(
