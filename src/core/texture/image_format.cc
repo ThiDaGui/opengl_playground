@@ -33,4 +33,19 @@ ImageFormatGL image_format_to_gl(ImageFormat format)
     }
 }
 
+uint32_t access_type_to_gl(AccessType access)
+{
+    switch (access)
+    {
+    case AccessType::Read:
+        return GL_READ_ONLY;
+    case AccessType::Write:
+        return GL_WRITE_ONLY;
+    case AccessType::ReadWrite:
+        return GL_READ_WRITE;
+    default:
+        exit(EXIT_FAILURE);
+    }
+}
+
 } // namespace Playground::Core

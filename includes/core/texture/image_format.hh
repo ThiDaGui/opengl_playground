@@ -24,6 +24,15 @@ struct ImageFormatGL
     uint32_t component_type;
 };
 
+enum class AccessType
+{
+    Read,
+    Write,
+    ReadWrite,
+};
+
+uint32_t access_type_to_gl(AccessType access);
+
 ImageFormatGL image_format_to_gl(ImageFormat format);
 
 } // namespace Playground::Core

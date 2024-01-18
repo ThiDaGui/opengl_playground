@@ -24,6 +24,8 @@ public:
             const uint32_t mip_levels = 1);
 
     void bind(const GLuint unit = 0) const;
+    void bind_image(const GLuint unit, const ImageFormat format,
+                    const AccessType access) const;
 
 private:
     friend class FrameBuffer;
