@@ -13,6 +13,9 @@ class Texture
 {
 public:
     Texture() = default;
+    Texture(Texture &&) = default;
+    Texture &operator=(Texture &&) = default;
+    
     Texture(const glm::uvec2 &size, const ImageFormat format,
             const uint32_t mip_levels = 1);
 
