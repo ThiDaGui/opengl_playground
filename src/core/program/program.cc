@@ -189,6 +189,14 @@ void Program::set_uniform(const std::string name, const glm::mat4 value)
     }
 }
 
+void Program::set_uniform(const std::string name, const glm::ivec2 value)
+{
+    if (auto search = uniforms_.find(name); search != uniforms_.end())
+    {
+        glProgramUniform2i(gl_program_.get(), search->second, value.x, value.y);
+    }
+}
+
 void Program::dispatch_compute(const uint32_t x, const uint32_t y,
                                const uint32_t z) const
 {

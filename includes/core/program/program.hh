@@ -69,6 +69,8 @@ public:
     void set_uniform(const std::string name, const glm::mat3 value);
     void set_uniform(const std::string name, const glm::mat4 value);
 
+    void set_uniform(const std::string name, const glm::ivec2 value);
+
     /**
      * getter for checking if the program is a compute shader or not
      */
