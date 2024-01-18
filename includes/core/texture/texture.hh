@@ -27,6 +27,8 @@ public:
     void bind_image(const GLuint unit, const ImageFormat format,
                     const AccessType access) const;
 
+    const glm::uvec2 &size() const { return size_; }
+
 private:
     friend class FrameBuffer;
     GLHandle gl_texture_ = 0;
