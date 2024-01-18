@@ -77,6 +77,15 @@ public:
         return _is_compute_shader;
     }
 
+    /**
+     * @brief dispatch a compute shader
+     * @param x the number of work groups in the x direction
+     * @param y the number of work groups in the y direction
+     * @param z the number of work groups in the z direction
+     */
+    void dispatch_compute(const uint32_t x, const uint32_t y,
+                          const uint32_t z) const;
+
 private:
     GLHandle gl_program_ = 0;
     std::vector<GLuint> gl_shaders_;

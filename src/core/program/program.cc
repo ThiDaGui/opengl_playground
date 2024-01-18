@@ -189,4 +189,20 @@ void Program::set_uniform(const std::string name, const glm::mat4 value)
     }
 }
 
+void Program::dispatch_compute(const uint32_t x, const uint32_t y,
+                               const uint32_t z) const
+{
+    if (_is_compute_shader)
+    {
+        glDispatchCompute(x, y, z);
+    }
+    else
+    {
+        std::cerr << "Error: trying to dispatch a compute shader on a "
+                     "non-compute shader program"
+                  << std::endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
 } // namespace Playground::Core
