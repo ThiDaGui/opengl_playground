@@ -41,8 +41,8 @@ void Texture::bind_image(const GLuint unit, const ImageFormat format,
                          const AccessType access) const
 {
     glBindImageTexture(unit, gl_texture_.get(), 0, GL_FALSE, 0,
-                       image_format_to_gl(format).format,
-                       access_type_to_gl(access));
+                       access_type_to_gl(access),
+                       image_format_to_gl(format).internal_format);
 }
 
 } // namespace Playground::Core
