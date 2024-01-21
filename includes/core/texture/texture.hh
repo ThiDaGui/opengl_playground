@@ -24,10 +24,13 @@ public:
             const uint32_t mip_levels = 1);
 
     void bind(const GLuint unit = 0) const;
-    void bind_image(const GLuint unit, const ImageFormat format,
+    void bind_image(const GLuint unit, const GLint lod,
                     const AccessType access) const;
 
-    const glm::uvec2 &size() const { return size_; }
+    const glm::uvec2 &size() const
+    {
+        return size_;
+    }
 
 private:
     friend class FrameBuffer;

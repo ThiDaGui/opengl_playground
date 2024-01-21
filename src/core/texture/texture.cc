@@ -24,6 +24,11 @@ Texture::Texture(const glm::uvec2 &size, const ImageFormat format,
     const ImageFormatGL gl_format = image_format_to_gl(format);
     glTextureStorage2D(gl_texture_.get(), mip_levels, gl_format.internal_format,
                        size.x, size.y);
+    glTextureParameteri(gl_texture_.get(), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTextureParameteri(gl_texture_.get(), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTextureParameteri(gl_texture_.get(), GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTextureParameteri(gl_texture_.get(), GL_TEXTURE_MIN_FILTER,
+                        GL_LINEAR_MIPMAP_NEAREST);
 }
 
 Texture::~Texture()
@@ -37,12 +42,12 @@ void Texture::bind(const GLuint index) const
     glBindTextureUnit(index, gl_texture_.get());
 }
 
-void Texture::bind_image(const GLuint unit, const ImageFormat format,
+void Texture::bind_image(const GLuint unit, const GLint lod,
                          const AccessType access) const
 {
-    glBindImageTexture(unit, gl_texture_.get(), 0, GL_FALSE, 0,
+    glBindImageTexture(unit, gl_texture_.get(), lod, GL_FALSE, 0,
                        access_type_to_gl(access),
-                       image_format_to_gl(format).internal_format);
+                       image_format_to_gl(format_).internal_format);
 }
 
 } // namespace Playground::Core
