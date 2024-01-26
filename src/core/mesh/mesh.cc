@@ -1,9 +1,13 @@
 #include "core/mesh/mesh.hh"
 
 #include <GL/glew.h>
+#include <array>
+#include <cstdint>
 #include <glm/ext/vector_float3.hpp>
 #include <memory>
 #include <vector>
+
+#include "core/mesh/vertex.hh"
 
 namespace Playground::Core
 {
@@ -39,6 +43,58 @@ void Mesh::draw() const
 
     glDrawElements(GL_TRIANGLES, index_buffer_.element_count(), GL_UNSIGNED_INT,
                    nullptr);
+}
+
+Mesh Mesh::cube(const float size)
+{
+    const std::vector<Vertex> vertex_buffer{
+        { { size, size, size }, { 0.0, 0.0, 1.0 }, { 1.0, 1.0 } },
+        { { -size, size, size }, { 0.0, 0.0, 1.0 }, { 0.0, 1.0 } },
+        { { -size, -size, size }, { 0.0, 0.0, 1.0 }, { 0.0, 0.0 } },
+        { { size, -size, size }, { 0.0, 0.0, 1.0 }, { 1.0, 0.0 } },
+
+        { { -size, size, size }, { 0.0, 1.0, 0.0 }, { 1.0, 0.0 } },
+        { { size, size, size }, { 0.0, 1.0, 0.0 }, { 0.0, 1.0 } },
+        { { size, size, -size }, { 0.0, 1.0, 0.0 }, { 0.0, 0.0 } },
+        { { -size, size, -size }, { 0.0, 1.0, 0.0 }, { 1.0, 1.0 } },
+
+        { { -size, -size, size }, { -1.0, 0.0, 0.0 }, { 1.0, 0.0 } },
+        { { -size, size, size }, { -1.0, 0.0, 0.0 }, { 0.0, 1.0 } },
+        { { -size, size, -size }, { -1.0, 0.0, 0.0 }, { 0.0, 0.0 } },
+        { { -size, -size, -size }, { -1.0, 0.0, 0.0 }, { 1.0, 1.0 } },
+
+        { { size, -size, size }, { 0.0, -1.0, 0.0 }, { 1.0, 0.0 } },
+        { { -size, -size, size }, { 0.0, -1.0, 0.0 }, { 0.0, 1.0 } },
+        { { -size, -size, -size }, { 0.0, -1.0, 0.0 }, { 0.0, 0.0 } },
+        { { size, -size, -size }, { 0.0, -1.0, 0.0 }, { 1.0, 1.0 } },
+
+        { { size, size, size }, { 1.0, 0.0, 0.0 }, { 1.0, 0.0 } },
+        { { size, -size, size }, { 1.0, 0.0, 0.0 }, { 0.0, 1.0 } },
+        { { size, -size, -size }, { 1.0, 0.0, 0.0 }, { 0.0, 0.0 } },
+        { { size, size, -size }, { 1.0, 0.0, 0.0 }, { 1.0, 1.0 } },
+
+        { { -size, -size, -size }, { 0.0, 0.0, -1.0 }, { 1.0, 0.0 } },
+        { { size, -size, -size }, { 0.0, 0.0, -1.0 }, { 0.0, 1.0 } },
+        { { size, size, -size }, { 0.0, 0.0, -1.0 }, { 0.0, 0.0 } },
+        { { -size, size, -size }, { 0.0, 0.0, -1.0 }, { 1.0, 1.0 } },
+    };
+
+    std::vector<uint32_t> indices{
+        0,  1,  2, //
+        0,  2,  3, //
+        4,  5,  6, //
+        4,  6,  7, //
+        8,  9,  10, //
+        8,  10, 11, //
+        12, 13, 14, //
+        12, 14, 15, //
+        16, 17, 18, //
+        16, 18, 19, //
+        20, 21, 22, //
+        20, 22, 23, //
+    };
+
+    return Mesh{ MeshData{ vertex_buffer, indices } };
 }
 
 } // namespace Playground::Core
