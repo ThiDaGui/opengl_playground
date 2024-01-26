@@ -4,6 +4,7 @@
 #include <array>
 #include <cstdint>
 #include <glm/ext/vector_float3.hpp>
+#include <glm/fwd.hpp>
 #include <memory>
 #include <vector>
 
@@ -45,38 +46,38 @@ void Mesh::draw() const
                    nullptr);
 }
 
-Mesh Mesh::cube(const float size)
+Mesh Mesh::cube(const float size, const glm::vec4 color)
 {
     const std::vector<Vertex> vertex_buffer{
-        { { size, size, size }, { 0.0, 0.0, 1.0 }, { 1.0, 1.0 } },
-        { { -size, size, size }, { 0.0, 0.0, 1.0 }, { 0.0, 1.0 } },
-        { { -size, -size, size }, { 0.0, 0.0, 1.0 }, { 0.0, 0.0 } },
-        { { size, -size, size }, { 0.0, 0.0, 1.0 }, { 1.0, 0.0 } },
+        { { size, size, size }, { 0.0, 0.0, 1.0 }, { 1.0, 1.0 }, color },
+        { { -size, size, size }, { 0.0, 0.0, 1.0 }, { 0.0, 1.0 }, color },
+        { { -size, -size, size }, { 0.0, 0.0, 1.0 }, { 0.0, 0.0 }, color },
+        { { size, -size, size }, { 0.0, 0.0, 1.0 }, { 1.0, 0.0 }, color },
 
-        { { -size, size, size }, { 0.0, 1.0, 0.0 }, { 1.0, 0.0 } },
-        { { size, size, size }, { 0.0, 1.0, 0.0 }, { 0.0, 1.0 } },
-        { { size, size, -size }, { 0.0, 1.0, 0.0 }, { 0.0, 0.0 } },
-        { { -size, size, -size }, { 0.0, 1.0, 0.0 }, { 1.0, 1.0 } },
+        { { -size, size, size }, { 0.0, 1.0, 0.0 }, { 1.0, 0.0 }, color },
+        { { size, size, size }, { 0.0, 1.0, 0.0 }, { 0.0, 1.0 }, color },
+        { { size, size, -size }, { 0.0, 1.0, 0.0 }, { 0.0, 0.0 }, color },
+        { { -size, size, -size }, { 0.0, 1.0, 0.0 }, { 1.0, 1.0 }, color },
 
-        { { -size, -size, size }, { -1.0, 0.0, 0.0 }, { 1.0, 0.0 } },
-        { { -size, size, size }, { -1.0, 0.0, 0.0 }, { 0.0, 1.0 } },
-        { { -size, size, -size }, { -1.0, 0.0, 0.0 }, { 0.0, 0.0 } },
-        { { -size, -size, -size }, { -1.0, 0.0, 0.0 }, { 1.0, 1.0 } },
+        { { -size, -size, size }, { -1.0, 0.0, 0.0 }, { 1.0, 0.0 }, color },
+        { { -size, size, size }, { -1.0, 0.0, 0.0 }, { 0.0, 1.0 }, color },
+        { { -size, size, -size }, { -1.0, 0.0, 0.0 }, { 0.0, 0.0 }, color },
+        { { -size, -size, -size }, { -1.0, 0.0, 0.0 }, { 1.0, 1.0 }, color },
 
-        { { size, -size, size }, { 0.0, -1.0, 0.0 }, { 1.0, 0.0 } },
-        { { -size, -size, size }, { 0.0, -1.0, 0.0 }, { 0.0, 1.0 } },
-        { { -size, -size, -size }, { 0.0, -1.0, 0.0 }, { 0.0, 0.0 } },
-        { { size, -size, -size }, { 0.0, -1.0, 0.0 }, { 1.0, 1.0 } },
+        { { size, -size, size }, { 0.0, -1.0, 0.0 }, { 1.0, 0.0 }, color },
+        { { -size, -size, size }, { 0.0, -1.0, 0.0 }, { 0.0, 1.0 }, color },
+        { { -size, -size, -size }, { 0.0, -1.0, 0.0 }, { 0.0, 0.0 }, color },
+        { { size, -size, -size }, { 0.0, -1.0, 0.0 }, { 1.0, 1.0 }, color },
 
-        { { size, size, size }, { 1.0, 0.0, 0.0 }, { 1.0, 0.0 } },
-        { { size, -size, size }, { 1.0, 0.0, 0.0 }, { 0.0, 1.0 } },
-        { { size, -size, -size }, { 1.0, 0.0, 0.0 }, { 0.0, 0.0 } },
-        { { size, size, -size }, { 1.0, 0.0, 0.0 }, { 1.0, 1.0 } },
+        { { size, size, size }, { 1.0, 0.0, 0.0 }, { 1.0, 0.0 }, color },
+        { { size, -size, size }, { 1.0, 0.0, 0.0 }, { 0.0, 1.0 }, color },
+        { { size, -size, -size }, { 1.0, 0.0, 0.0 }, { 0.0, 0.0 }, color },
+        { { size, size, -size }, { 1.0, 0.0, 0.0 }, { 1.0, 1.0 }, color },
 
-        { { -size, -size, -size }, { 0.0, 0.0, -1.0 }, { 1.0, 0.0 } },
-        { { size, -size, -size }, { 0.0, 0.0, -1.0 }, { 0.0, 1.0 } },
-        { { size, size, -size }, { 0.0, 0.0, -1.0 }, { 0.0, 0.0 } },
-        { { -size, size, -size }, { 0.0, 0.0, -1.0 }, { 1.0, 1.0 } },
+        { { -size, -size, -size }, { 0.0, 0.0, -1.0 }, { 1.0, 0.0 }, color },
+        { { size, -size, -size }, { 0.0, 0.0, -1.0 }, { 0.0, 1.0 }, color },
+        { { size, size, -size }, { 0.0, 0.0, -1.0 }, { 0.0, 0.0 }, color },
+        { { -size, size, -size }, { 0.0, 0.0, -1.0 }, { 1.0, 1.0 }, color },
     };
 
     std::vector<uint32_t> indices{
