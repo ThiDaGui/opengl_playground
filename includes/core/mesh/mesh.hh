@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/fwd.hpp>
 #include <sys/types.h>
 #include <vector>
 
@@ -32,9 +33,10 @@ private:
 
 public:
     static Mesh sphere(const unsigned int h_segments,
-                       const unsigned int v_segments, const float radius);
-    static Mesh cube(const float size);
-    static Mesh plane(const float size);
+                       const unsigned int v_segments, const float radius,
+                       const glm::vec4 color);
+    static Mesh cube(const float size, const glm::vec4 color);
+    static Mesh plane(const float size, const glm::vec4 color);
 };
 
 } // namespace Playground::Core
