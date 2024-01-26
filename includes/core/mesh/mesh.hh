@@ -1,5 +1,6 @@
 #pragma once
 
+#include <sys/types.h>
 #include <vector>
 
 #include "core/buffer/typed_buffer.hh"
@@ -28,6 +29,12 @@ public:
 private:
     TypedBuffer<Vertex> vertex_buffer_;
     TypedBuffer<uint32_t> index_buffer_;
+
+public:
+    static Mesh sphere(const unsigned int h_segments,
+                       const unsigned int v_segments, const float radius);
+    static Mesh cube(const float size);
+    static Mesh plane(const float size);
 };
 
 } // namespace Playground::Core
