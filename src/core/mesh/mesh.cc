@@ -2,6 +2,7 @@
 
 #include <GL/glew.h>
 #include <array>
+#include <cmath>
 #include <cstdint>
 #include <glm/ext/vector_float3.hpp>
 #include <glm/fwd.hpp>
@@ -46,38 +47,137 @@ void Mesh::draw() const
                    nullptr);
 }
 
+// notation: latitude/longitude/radius
+// https://fr.wikipedia.org/wiki/Coordonn%C3%A9es_sph%C3%A9riques#Convention_rayon-longitude-latitude
+[[maybe_unused]] static glm::vec3
+spherical_to_cartesian(const float theta, const float delta, const float radius)
+{
+    return glm::vec3{
+        radius * std::cos(delta) * std::cos(theta),
+        radius * std::cos(delta) * std::sin(theta),
+        radius * std::sin(delta),
+    };
+}
+
+Mesh Mesh::sphere([[maybe_unused]] const uint32_t h_segments,
+                  [[maybe_unused]] const uint32_t v_segments,
+                  [[maybe_unused]] const float radius,
+                  [[maybe_unused]] const glm::vec4 color)
+{
+    std::vector<Vertex> vertex_buffer{};
+    std::vector<uint32_t> indices{};
+
+    for (uint32_t i_theta = 0; i_theta <= h_segments; i_theta++)
+    {
+    }
+
+    return Mesh(MeshData{ vertex_buffer, indices });
+}
+
 Mesh Mesh::cube(const float size, const glm::vec4 color)
 {
     const std::vector<Vertex> vertex_buffer{
-        { { size, size, size }, { 0.0, 0.0, 1.0 }, { 1.0, 1.0 }, color },
-        { { -size, size, size }, { 0.0, 0.0, 1.0 }, { 0.0, 1.0 }, color },
-        { { -size, -size, size }, { 0.0, 0.0, 1.0 }, { 0.0, 0.0 }, color },
-        { { size, -size, size }, { 0.0, 0.0, 1.0 }, { 1.0, 0.0 }, color },
+        { { size / 2.0f, size / 2.0f, size / 2.0f },
+          { 0.0, 0.0, 1.0 },
+          { 1.0, 1.0 },
+          color },
+        { { -size / 2.0f, size / 2.0f, size / 2.0f },
+          { 0.0, 0.0, 1.0 },
+          { 0.0, 1.0 },
+          color },
+        { { -size / 2.0f, -size / 2.0f, size / 2.0f },
+          { 0.0, 0.0, 1.0 },
+          { 0.0, 0.0 },
+          color },
+        { { size / 2.0f, -size / 2.0f, size / 2.0f },
+          { 0.0, 0.0, 1.0 },
+          { 1.0, 0.0 },
+          color },
 
-        { { -size, size, size }, { 0.0, 1.0, 0.0 }, { 1.0, 0.0 }, color },
-        { { size, size, size }, { 0.0, 1.0, 0.0 }, { 0.0, 1.0 }, color },
-        { { size, size, -size }, { 0.0, 1.0, 0.0 }, { 0.0, 0.0 }, color },
-        { { -size, size, -size }, { 0.0, 1.0, 0.0 }, { 1.0, 1.0 }, color },
+        { { -size / 2.0f, size / 2.0f, size / 2.0f },
+          { 0.0, 1.0, 0.0 },
+          { 1.0, 0.0 },
+          color },
+        { { size / 2.0f, size / 2.0f, size / 2.0f },
+          { 0.0, 1.0, 0.0 },
+          { 0.0, 1.0 },
+          color },
+        { { size / 2.0f, size / 2.0f, -size / 2.0f },
+          { 0.0, 1.0, 0.0 },
+          { 0.0, 0.0 },
+          color },
+        { { -size / 2.0f, size / 2.0f, -size / 2.0f },
+          { 0.0, 1.0, 0.0 },
+          { 1.0, 1.0 },
+          color },
 
-        { { -size, -size, size }, { -1.0, 0.0, 0.0 }, { 1.0, 0.0 }, color },
-        { { -size, size, size }, { -1.0, 0.0, 0.0 }, { 0.0, 1.0 }, color },
-        { { -size, size, -size }, { -1.0, 0.0, 0.0 }, { 0.0, 0.0 }, color },
-        { { -size, -size, -size }, { -1.0, 0.0, 0.0 }, { 1.0, 1.0 }, color },
+        { { -size / 2.0f, -size / 2.0f, size / 2.0f },
+          { -1.0, 0.0, 0.0 },
+          { 1.0, 0.0 },
+          color },
+        { { -size / 2.0f, size / 2.0f, size / 2.0f },
+          { -1.0, 0.0, 0.0 },
+          { 0.0, 1.0 },
+          color },
+        { { -size / 2.0f, size / 2.0f, -size / 2.0f },
+          { -1.0, 0.0, 0.0 },
+          { 0.0, 0.0 },
+          color },
+        { { -size / 2.0f, -size / 2.0f, -size / 2.0f },
+          { -1.0, 0.0, 0.0 },
+          { 1.0, 1.0 },
+          color },
 
-        { { size, -size, size }, { 0.0, -1.0, 0.0 }, { 1.0, 0.0 }, color },
-        { { -size, -size, size }, { 0.0, -1.0, 0.0 }, { 0.0, 1.0 }, color },
-        { { -size, -size, -size }, { 0.0, -1.0, 0.0 }, { 0.0, 0.0 }, color },
-        { { size, -size, -size }, { 0.0, -1.0, 0.0 }, { 1.0, 1.0 }, color },
+        { { size / 2.0f, -size / 2.0f, size / 2.0f },
+          { 0.0, -1.0, 0.0 },
+          { 1.0, 0.0 },
+          color },
+        { { -size / 2.0f, -size / 2.0f, size / 2.0f },
+          { 0.0, -1.0, 0.0 },
+          { 0.0, 1.0 },
+          color },
+        { { -size / 2.0f, -size / 2.0f, -size / 2.0f },
+          { 0.0, -1.0, 0.0 },
+          { 0.0, 0.0 },
+          color },
+        { { size / 2.0f, -size / 2.0f, -size / 2.0f },
+          { 0.0, -1.0, 0.0 },
+          { 1.0, 1.0 },
+          color },
 
-        { { size, size, size }, { 1.0, 0.0, 0.0 }, { 1.0, 0.0 }, color },
-        { { size, -size, size }, { 1.0, 0.0, 0.0 }, { 0.0, 1.0 }, color },
-        { { size, -size, -size }, { 1.0, 0.0, 0.0 }, { 0.0, 0.0 }, color },
-        { { size, size, -size }, { 1.0, 0.0, 0.0 }, { 1.0, 1.0 }, color },
+        { { size / 2.0f, size / 2.0f, size / 2.0f },
+          { 1.0, 0.0, 0.0 },
+          { 1.0, 0.0 },
+          color },
+        { { size / 2.0f, -size / 2.0f, size / 2.0f },
+          { 1.0, 0.0, 0.0 },
+          { 0.0, 1.0 },
+          color },
+        { { size / 2.0f, -size / 2.0f, -size / 2.0f },
+          { 1.0, 0.0, 0.0 },
+          { 0.0, 0.0 },
+          color },
+        { { size / 2.0f, size / 2.0f, -size / 2.0f },
+          { 1.0, 0.0, 0.0 },
+          { 1.0, 1.0 },
+          color },
 
-        { { -size, -size, -size }, { 0.0, 0.0, -1.0 }, { 1.0, 0.0 }, color },
-        { { size, -size, -size }, { 0.0, 0.0, -1.0 }, { 0.0, 1.0 }, color },
-        { { size, size, -size }, { 0.0, 0.0, -1.0 }, { 0.0, 0.0 }, color },
-        { { -size, size, -size }, { 0.0, 0.0, -1.0 }, { 1.0, 1.0 }, color },
+        { { -size / 2.0f, -size / 2.0f, -size / 2.0f },
+          { 0.0, 0.0, -1.0 },
+          { 1.0, 0.0 },
+          color },
+        { { size / 2.0f, -size / 2.0f, -size / 2.0f },
+          { 0.0, 0.0, -1.0 },
+          { 0.0, 1.0 },
+          color },
+        { { size / 2.0f, size / 2.0f, -size / 2.0f },
+          { 0.0, 0.0, -1.0 },
+          { 0.0, 0.0 },
+          color },
+        { { -size / 2.0f, size / 2.0f, -size / 2.0f },
+          { 0.0, 0.0, -1.0 },
+          { 1.0, 1.0 },
+          color },
     };
 
     std::vector<uint32_t> indices{
@@ -96,6 +196,35 @@ Mesh Mesh::cube(const float size, const glm::vec4 color)
     };
 
     return Mesh{ MeshData{ vertex_buffer, indices } };
+}
+
+Mesh Mesh::plane(const float size, const glm::vec4 color)
+{
+    const std::vector<Vertex> vertex_buffer{
+        { { size / 2.0f, size / 2.0f, 0.0f },
+          { 0.0, 0.0, 1.0 },
+          { 1.0, 1.0 },
+          color },
+        { { -size / 2.0f, size / 2.0f, 0.0f },
+          { 0.0, 0.0, 1.0 },
+          { 0.0, 1.0 },
+          color },
+        { { -size / 2.0f, -size / 2.0f, 0.0f },
+          { 0.0, 0.0, 1.0 },
+          { 0.0, 0.0 },
+          color },
+        { { size / 2.0f, -size / 2.0f, 0.0f },
+          { 0.0, 0.0, 1.0 },
+          { 1.0, 0.0 },
+          color }
+    };
+
+    const std::vector<uint32_t> indices{
+        0, 1, 2, //
+        0, 2, 3, //
+    };
+
+    return Mesh(MeshData{ vertex_buffer, indices });
 }
 
 } // namespace Playground::Core

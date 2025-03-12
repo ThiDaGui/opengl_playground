@@ -18,3 +18,4 @@ target_link_libraries(Playground
 		imgui_lib
 		glfw
 )
+set_target_properties(Playground PROPERTIES CXX_STANDARD 20)
