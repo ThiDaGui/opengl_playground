@@ -96,8 +96,24 @@ Program::~Program()
         glDeleteProgram(gl_program_.get());
 }
 
-void Program::bind()
+void Program::bind() const
 {
+    switch (_depth_test) {
+    case DepthTestMode::None:
+        glDisable(GL_DEPTH_TEST);
+        break;
+    case DepthTestMode::Standard:
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        break;
+    case DepthTestMode::Reverse:
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_GEQUAL);
+        break;
+    case DepthTestMode::Equal:
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_EQUAL);
+    }
     glUseProgram(gl_program_.get());
 }
 

@@ -21,7 +21,7 @@ namespace Playground::Core
 /**
  * @enum ShaderType
  * @brief enum for shader types
- * @details used to specify the type of a shader
+ * @details used to specify the type of shader
  * @see Program
  */
 enum class ShaderType
@@ -31,26 +31,34 @@ enum class ShaderType
     Compute = GL_COMPUTE_SHADER /** @brief compute shader type */
 };
 
+enum class DepthTestMode
+{
+    None,
+    Standard,
+    Reverse,
+    Equal,
+};
+
 class Program
 {
 public:
     Program() = default;
-    Program(Program &&) = default;
-    Program &operator=(Program &&) = default;
+    Program(Program &&) noexcept = default;
+    Program& operator=(Program &&) noexcept = default;
     /**
      * @brief create a program from a list of shader source code
      * @param srcs a list of pairs of shader type and source code
      */
-    Program(const std::vector<std::pair<ShaderType, const std::string>> srcs);
+    explicit Program(std::vector<std::pair<ShaderType, const std::string>> srcs);
     /**
      * @brief create a program for a compute shader
      * @param comp the source code of the compute shader
      */
-    Program(const std::string &comp);
+    explicit Program(const std::string &comp);
 
     ~Program();
 
-    void bind();
+    void bind() const;
 
     // getter for uniforms locations,fills the uniforms_ map and check for
     // duplicates
@@ -60,16 +68,16 @@ public:
      * @param name the name of the uniform
      * @param value the value to set, can be a scalar, a vector or a matrix
      */
-    void set_uniform(const std::string name, const int value);
-    void set_uniform(const std::string name, const float value);
-    void set_uniform(const std::string name, const glm::vec2 value);
-    void set_uniform(const std::string name, const glm::vec3 value);
-    void set_uniform(const std::string name, const glm::vec4 value);
-    void set_uniform(const std::string name, const glm::mat2 value);
-    void set_uniform(const std::string name, const glm::mat3 value);
-    void set_uniform(const std::string name, const glm::mat4 value);
+    void set_uniform(std::string name, int value);
+    void set_uniform(std::string name, float value);
+    void set_uniform(std::string name, glm::vec2 value);
+    void set_uniform(std::string name, glm::vec3 value);
+    void set_uniform(std::string name, glm::vec4 value);
+    void set_uniform(std::string name, glm::mat2 value);
+    void set_uniform(std::string name, glm::mat3 value);
+    void set_uniform(std::string name, glm::mat4 value);
 
-    void set_uniform(const std::string name, const glm::ivec2 value);
+    void set_uniform(std::string name, glm::ivec2 value);
 
     /**
      * getter for checking if the program is a compute shader or not
@@ -85,14 +93,14 @@ public:
      * @param y the number of work groups in the y direction
      * @param z the number of work groups in the z direction
      */
-    void dispatch_compute(const uint32_t x, const uint32_t y,
-                          const uint32_t z) const;
+    void dispatch_compute(uint32_t x, uint32_t y,
+                          uint32_t z) const;
 
 private:
     GLHandle gl_program_ = 0;
     std::vector<GLuint> gl_shaders_;
     std::unordered_map<std::string, GLint> uniforms_;
+    DepthTestMode _depth_test = DepthTestMode::Standard;
     bool _is_compute_shader = false;
 };
-
 } // namespace Playground::Core
