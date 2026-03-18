@@ -24,6 +24,8 @@ ImageFormatGL image_format_to_gl(ImageFormat format)
         return ImageFormatGL{ GL_RGBA, GL_RGBA16F, GL_FLOAT };
     case ImageFormat::RGB16_FLOAT:
         return ImageFormatGL{ GL_RGB, GL_RGB16F, GL_FLOAT };
+    case ImageFormat::R11G11B10_FLOAT:
+        return ImageFormatGL{GL_RGB, GL_R11F_G11F_B10F, GL_FLOAT};
 
     case ImageFormat::Depth32_FLOAT:
         return ImageFormatGL{ GL_DEPTH_COMPONENT, GL_DEPTH_COMPONENT32F,
